@@ -1,11 +1,13 @@
 from flask import redirect, url_for
-from taxonomy import taxonomy
-from tagger_logic import (
+from .taxonomy import taxonomy
+from .tagger_logic import (
     tag_pain_description,
     generate_patient_summary,
     generate_doctor_summary,
     generate_entailment_summary
 )
+
+
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import os
