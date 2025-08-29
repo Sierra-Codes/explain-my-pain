@@ -1,3 +1,4 @@
+from flask import redirect, url_for
 from taxonomy import taxonomy
 from tagger_logic import (
     tag_pain_description,
@@ -76,6 +77,20 @@ CORS(app, resources={r"/*": {"origins": [
 def index():
     # Render the inline HTML, passing taxonomy to front-end JS for category/expressions
     return render_template("index.html", taxonomy=taxonomy)
+
+
+@app.route("/evidence", methods=["GET"])
+def evidence_page():
+    # renders backend/templates/evidence.html
+    return render_template("evidence.html")
+
+
+# optional alias so /evidence.html also works
+
+
+@app.route("/evidence.html", methods=["GET"])
+def evidence_html_alias():
+    return redirect(url_for("evidence_page"))
 
 
 @app.route("/analyze", methods=["POST"])
