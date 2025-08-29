@@ -22,7 +22,7 @@
   }
   .container{max-width:960px;margin:0 auto;padding:24px}
   h1,h2,h3{color:var(--indigo);margin:0 0 .6rem}
-  .lead{margin:.4rem 0 1.25rem;color:var(--muted)}
+  .lead{margin:.4rem 0 1.25rem;}
   .card{
     background:#fff;
     border:1px solid var(--line);
@@ -69,10 +69,6 @@
   .section-title{display:flex;align-items:center;gap:8px}
   .hr{height:1px;background:var(--line);border:0;margin:12px 0}
   .cta-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-
-  /* ---------------------------
-     Pill multi-select styling
-     --------------------------- */
   .pillbox {
     display:flex;
     flex-wrap:wrap;
@@ -101,30 +97,44 @@
     border-color:var(--indigo-dark);
   }
   #patientOut strong, #clinicianOut strong { color: var(--indigo); }
-
   #patientOut { line-height: 1.6; margin-bottom: .75rem; }
-
-  #patientOut p {
-  margin: 0.75rem 0;   /* space between symptom lines */
-  line-height: 1.6;    /* improve readability */
-}
-
-#clinicianOut { line-height: 1.6; }
-
-/* Research notes polish */
-#researchBlock .footer-note a { color: var(--indigo); text-decoration: underline; }
-#entailList { list-style: disc; padding-left: 1.25rem; }
-#entailList li { margin: .25rem 0; }
-
-
-</style>
-
+  #patientOut p { margin: 0.75rem 0; line-height: 1.6; }
+  #clinicianOut { line-height: 1.6; }
+  #researchBlock .footer-note a { color: var(--indigo); text-decoration: underline; }
+  #entailList { list-style: disc; padding-left: 1.25rem; }
+  #entailList li { margin: .25rem 0; }
+  </style>
 </head>
 <body>
   <main class="container">
+    <!-- Intro block -->
     <header class="card">
       <h1>Explain My Pain</h1>
-      <p class="lead">Describe your pain in your own words. We’ll generate a patient-friendly summary and concise clinical notes.</p>
+      <p class="lead">
+        Explaining invisible pain is hard, especially when linked to “natural” processes like menstruation.
+        Too often, pain is normalised, dismissed, or misunderstood.
+      </p>
+      <p>
+        This app was created by a linguist and researcher with lived experience of endometriosis pain.
+        Its purpose is simple: to give you words when words fail. </p>
+        <p> 
+        Select the descriptions that you feel best match how your pain feels. The app will explain them
+        in plain language and will create a short summary to share with your clinician.
+      </p>
+      <p style="text-align:center;color:var(--indigo);font-style:italic;margin:.6rem 0 .2rem">
+        💜 I hope this app helps you explain your pain and feel heard.
+      </p>
+      <div style="border-left:4px solid var(--indigo-dark); padding-left:10px; margin-top:.6rem">
+        <p class="footer-note" style="margin:.25rem 0 0">
+          <strong>Disclaimer:</strong> This tool is <strong>not diagnostic</strong> and does not replace medical advice.
+          It is designed only as a communication aid, to help bridge the gap between patient experience and medical language.
+        </p>
+      </div>
+      <p class="footer-note" style="margin-top:.6rem">
+        <a href="https://stellabullo.com/writing/language-of-endo/" target="_blank" rel="noopener" style="color:var(--indigo);text-decoration:underline">
+          Learn more about the project →
+        </a>
+      </p>
     </header>
 
     <form id="empForm" class="card" method="POST" action="/analyze">
