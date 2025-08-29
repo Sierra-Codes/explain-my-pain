@@ -7,16 +7,20 @@ import sys
 from typing import Dict, List, Set, Optional, Any
 
 # -----------------------
-# Imports (absolute; safe fallback for entailments)
+# Imports (package-aware)
+# Try relative first (when running as a package, e.g. on Render),
+# then fall back to absolute (when run from inside backend/ locally).
 # -----------------------
-
 try:
-    from taxonomy import taxonomy as _TAXONOMY
-except Exception as e:
-    raise ImportError(
-        "Could not import taxonomy. Ensure backend/taxonomy.py defines `taxonomy` "
-        "with keys: metaphor_types, graduation_modifiers, triggers, life_impact_clues."
-    ) from e
+    from .taxonomy import taxonomy as _TAXONOMY  # type: ignore
+except Exception:
+    try:
+        from taxonomy import taxonomy as _TAXONOMY  # type: ignore
+    except Exception as e:
+        raise ImportError(
+            "Could not import taxonomy. Ensure backend/taxonomy.py defines `taxonomy` "
+            "with keys: metaphor_types, graduation_modifiers, triggers, life_impact_clues."
+        ) from e
 
 
 def _empty_entailments(_category: str) -> Dict[str, List[str]]:
@@ -26,10 +30,13 @@ def _empty_entailments(_category: str) -> Dict[str, List[str]]:
 
 try:
     # Expecting: def get_entailments(category: str) -> dict
-    from entailments import get_entailments as _get_entailments  # type: ignore
+    from .entailments import get_entailments as _get_entailments  # type: ignore
 except Exception:
-    print("[WARN] entailments.get_entailments not found; using empty entailments.", file=sys.stderr)
-    _get_entailments = _empty_entailments
+    try:
+        from entailments import get_entailments as _get_entailments  # type: ignore
+    except Exception:
+        print("[WARN] entailments.get_entailments not found; using empty entailments.", file=sys.stderr)
+        _get_entailments = _empty_entailments
 
 # -----------------------
 # Public knobs (populated from taxonomy)
@@ -483,7 +490,7 @@ def generate_doctor_summary(results: Dict[str, Any]) -> str:
     if signals:
         out.extend(
             ["", "**Interpretive signals** (from metaphor entailments):", signals, ""])
-    out.append("🩺 *Note*: These metaphor-based interpretations are not diagnostic. They are intended to support communication between patient and provider.\n")
+    out.append("🩺 *Note*: These metaphor-based interpretations are not diagnostic. They are intended to support communication between patients and provider.\n")
     out.append("For more information, see the evidence page: /evidence")
     return "\n".join(out)
 
