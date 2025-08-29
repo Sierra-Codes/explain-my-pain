@@ -1,6 +1,6 @@
 # Explain My Pain 🩺🧠
 
-**Explain My Pain** is a patient-centered web app that uses natural language processing (NLP) to analyze metaphorical descriptions of chronic pelvic pain—particularly in endometriosis. It transforms free-text pain descriptions into structured summaries to support doctor–patient communication, clinical understanding, and research into figurative language in healthcare.
+**Explain My Pain** is a patient-centered web app that uses natural language processing (NLP) to analyze metaphorical descriptions of chronic pelvic pain, particularly in endometriosis. It transforms free-text pain descriptions into structured summaries to support doctor–patient communication, clinical understanding, and research into figurative language in healthcare.
 
 ---
 
@@ -98,7 +98,7 @@ http://127.0.0.1:5000/
 **Dr Stella Bullo**  
 Linguist · Python Developer · NLP Specialist  
 ORCID: [0000-0002-7402-0819](https://orcid.org/0000-0002-7402-0819)  
-🌐 [Portfolio](https://your-portfolio-link.com) · 🐙 [GitHub](https://github.com/yourusername)
+🌐 [Portfolio](https://stellabullo.com) · 🐙 [GitHub](https://github.com/Sierra-Codes)
 
 ---
 
