@@ -1,0 +1,22 @@
+# --- Web framework ---
+flask>=2.3.0
+
+# --- NLP / Text processing ---
+nltk>=3.8.1
+
+# --- HTML to PDF rendering ---
+weasyprint>=60.2
+
+# Dependencies required by WeasyPrint (do not omit)
+cairocffi>=1.4.0
+tinycss2>=1.2.1
+pyphen>=0.14.0
+
+# --- Optional utilities ---
+python-dotenv>=1.0.1   # For managing secrets and config vars
+
+# --- Development and logging (optional) ---
+Werkzeug>=2.3.0        # Comes with Flask, but make sure it's recent
+requests>=2.31.0       # Useful for future API features
+gunicorn
+flask-cors

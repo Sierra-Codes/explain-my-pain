@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this tool in your work, please cite it as follows."
+title: "Explain My Pain"
+version: "0.9"
+date-released: 2025-06-22
+authors:
+  - family-names: Bullo
+    given-names: Stella
+    orcid: https://orcid.org/0000-0002-7402-0819
+    affiliation: Independent Researcher and Developer
+repository-code: https://github.com/yourusername/explain-my-pain
+license: MIT
+keywords:
+  - NLP
+  - metaphor
+  - chronic pain
+  - endometriosis
+  - health communication
+  - digital health
+abstract: >
+  Explain My Pain is a web-based tool designed to analyze metaphorical descriptions of chronic pelvic pain.
+  It uses NLP techniques and a custom taxonomy to identify metaphor types and generate structured summaries
+  for patients and clinicians. The app was developed by Dr Stella Bullo, drawing on academic research,
+  lived experience of endometriosis, and principles of ethical, empathetic health communication.

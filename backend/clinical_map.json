@@ -1,0 +1,56 @@
+{
+  "violent_action": {
+    "patient_friendly": "Pain that feels like being attacked or assaulted, often sharp, violent, and abrupt.",
+    "likely_mechanism": "Sudden flare-up, lesion rupture, nerve activation due to strain or inflammation.",
+    "clinical_terms": [
+      "acute trauma",
+      "neural sensitisation",
+      "sudden nociceptive spike"
+    ]
+  },
+  "cutting_tools": {
+    "patient_friendly": "Pain that feels like cutting or piercing, like knives or sharp glass.",
+    "likely_mechanism": "Localised sharp pain suggesting tissue irritation or lesion cuts.",
+    "clinical_terms": [
+      "laceration-like pain",
+      "sharp nociception",
+      "localised tissue injury"
+    ]
+  },
+  "internal_machinery": {
+    "patient_friendly": "Pain that feels mechanical, like grinding, clamping, or twisting.",
+    "likely_mechanism": "Mechanical compression or traction of tissues.",
+    "clinical_terms": [
+      "compressive pain",
+      "mechanical stress",
+      "sustained strain"
+    ]
+  },
+  "heat_fire": {
+    "patient_friendly": "Pain that feels hot or burning, like fire or scalding.",
+    "likely_mechanism": "Inflammatory processes or nerve irritation.",
+    "clinical_terms": [
+      "burning pain",
+      "inflammatory sensation",
+      "thermal nociception"
+    ]
+  },
+  "weight_pressure": {
+    "patient_friendly": "Pain that feels heavy or crushing, as if pressed down by weight.",
+    "likely_mechanism": "Pressure on organs or pelvic floor loading.",
+    "clinical_terms": [
+      "pressure pain",
+      "organ compression",
+      "pelvic floor load"
+    ]
+  },
+  "movement_force": {
+    "patient_friendly": "Pain that feels like pulling, tugging, or ripping inside.",
+    "likely_mechanism": "Tissue traction or sudden internal force.",
+    "clinical_terms": [
+      "traction pain",
+      "episodic spikes",
+      "internal force"
+    ]
+  }
+}
