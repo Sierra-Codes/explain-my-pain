@@ -167,6 +167,7 @@
               <option>Daily life / Background</option>
               <option>Physical activity</option>
               <option>Sleep / Rest</option>
+            
             </select>
           </div>
 
@@ -202,37 +203,43 @@
         <div id="groupedChips" class="row"></div>
       </section>
 
-      <!-- Overall + QoL (pill style) -->
-      <section class="card" id="overall-optional">
-        <h2>Overall / baseline (optional)</h2>
-        <div class="grid-2" style="margin-top:.5rem">
-          <fieldset class="card" style="margin:0">
-            <label class="section-title" style="margin-bottom:.25rem">
-              I feel that this pain… (tap as many as apply)
-            </label>
-            <div class="pillbox">
-              <label class="pill"><input type="checkbox" name="qolOpt" value="Dominates my life">Dominates my life</label>
-              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects me socially">Affects me socially</label>
-              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my productivity">Affects my productivity</label>
-              <label class="pill"><input type="checkbox" name="qolOpt" value="Prevents me from carrying out basic chores">Prevents me from carrying out basic chores</label>
-              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my mental health">Affects my mental health</label>
-              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my happiness">Affects my happiness</label>
-            </div>
-          </fieldset>
+      <!-- Overall + QoL (pill style, always visible) -->
+<section class="card" id="overall-optional">
+  <h2>Overall / baseline (optional)</h2>
 
-          <fieldset class="card" style="margin:0">
-            <label class="section-title" style="margin-bottom:.25rem">Overall....(tap as many as apply)</label>
-            <div class="pillbox">
-              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel isolated">I feel isolated</label>
-              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel drained and exhausted">I feel drained and exhausted</label>
-              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel like I am losing myself">I feel like I am losing myself</label>
-              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel overwhelmed">I feel overwhelmed</label>
-              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel anxious or worried">I feel anxious or worried</label>
-              <label class="pill"><input type="checkbox" name="overallOpt" value="My mood is low / I feel down">My mood is low / I feel down</label>
-            </div>
-          </fieldset>
-        </div>
-      </section>
+  <div class="grid-2" style="margin-top:.5rem">
+    <!-- QoL IMPACTS -->
+    <fieldset class="card" style="margin:0">
+      <label class="section-title" style="margin-bottom:.25rem">
+        I feel that this pain… (tap as many as apply)
+      </label>
+      <div class="pillbox">
+        <label class="pill"><input type="checkbox" name="qolOpt" value="Dominates my life">Dominates my life</label>
+        <label class="pill"><input type="checkbox" name="qolOpt" value="Affects me socially">Affects me socially</label>
+        <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my productivity">Affects my productivity</label>
+        <label class="pill"><input type="checkbox" name="qolOpt" value="Prevents me from carrying out basic chores">Prevents me from carrying out basic chores</label>
+        <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my mental health">Affects my mental health</label>
+        <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my happiness">Affects my happiness</label>
+      </div>
+    </fieldset>
+
+    <!-- OVERALL FEELINGS -->
+    <fieldset class="card" style="margin:0">
+      <label class="section-title" style="margin-bottom:.25rem">Overall....(tap as many as apply)</label>
+      <div class="pillbox">
+        <label class="pill"><input type="checkbox" name="overallOpt" value="I feel isolated">I feel isolated</label>
+        <label class="pill"><input type="checkbox" name="overallOpt" value="I feel drained and exhausted">I feel drained and exhausted</label>
+        <label class="pill"><input type="checkbox" name="overallOpt" value="I feel like I am losing myself">I feel like I am losing myself</label>
+        <label class="pill"><input type="checkbox" name="overallOpt" value="I feel overwhelmed">I feel overwhelmed</label>
+        <label class="pill"><input type="checkbox" name="overallOpt" value="I feel anxious or worried">I feel anxious or worried</label>
+        <label class="pill"><input type="checkbox" name="overallOpt" value="My mood is low / I feel down">My mood is low / I feel down</label>
+      </div>
+    
+    </fieldset>
+  </div>
+</section>
+
+
 
       <!-- Hidden payloads sent to backend -->
       <textarea name="description" id="constructedText" class="hidden"></textarea>
@@ -257,47 +264,17 @@
       <div id="clinicianOut" class="footer-note">We’ll include triggers, salient metaphors, and entailments.</div>
       <div class="hr"></div>
     </section>
+   
   </main>
-
-  <!-- Safe taxonomy loader (server-rendered JSON optional) -->
-  <script id="taxonomy-json" type="application/json">
-  {{ taxonomy.get("metaphor_types", {}) | tojson }}
-  </script>
 
 <script>
   /* ===========================
      Explain My Pain — Frontend
+     Stella Bullo, 2025
      =========================== */
 
-  // ----- Safe TYPES with fallback -----
-  const DEFAULT_TYPES = {
-    violent_action: { expressions: ["I'm being attacked", "Something is punching me"], hint: "", note: "" },
-    cutting_tools: { expressions: ["I'm being stabbed repeatedly", "Like a knife cutting"], hint: "", note: "" },
-    internal_machinery: { expressions: ["Gears grinding", "A clamp tightening"], hint: "", note: "" },
-    constriction_pressure: { expressions: ["Being squeezed", "A tight band around"], hint: "", note: "" },
-    electric_force: { expressions: ["Electric zaps", "Shooting shocks"], hint: "", note: "" },
-    weight_burden: { expressions: ["A heavy weight pulling down"], hint: "", note: "" },
-    heat: { expressions: ["Burning hot", "Scalding"], hint: "", note: "" },
-    birth_labour: { expressions: ["Like contractions", "Labour-like waves"], hint: "", note: "" },
-    lingering_force: { expressions: ["A throbbing simmer", "Dull persistent ache"], hint: "", note: "" },
-    predator: { expressions: ["It stalks me", "Like a predator waiting"], hint: "", note: "" },
-    entrapment: { expressions: ["Trapped, locked in", "Held down"], hint: "", note: "" },
-    transformation_distortion: { expressions: ["Body feels twisted", "Out of shape"], hint: "", note: "" }
-  };
-
-  let TYPES = {};
-  (function loadTypesSafely(){
-    try {
-      const el = document.getElementById('taxonomy-json');
-      if (el) {
-        const raw = (el.textContent || "").trim();
-        if (raw && !raw.includes("{{")) {
-          TYPES = JSON.parse(raw);
-        }
-      }
-    } catch(e){ console.warn("Failed to parse taxonomy JSON; using defaults.", e); }
-    if (!TYPES || !Object.keys(TYPES).length) TYPES = DEFAULT_TYPES;
-  })();
+  // ----- Data handles -----
+  const TYPES = {{ taxonomy.get("metaphor_types", {}) | tojson }};
 
   // ----- DOM refs -----
   const triggerSel    = document.getElementById('trigger');
@@ -319,16 +296,32 @@
   // Local state
   const selections = []; // [{ trigger, category, expression }]
 
-  // -------- Canonical clinician headings + synonyms --------
+  // -------- Canonical clinician headings + synonyms (used to normalise & dedupe) --------
   const CANON_HEADINGS = {
-    "Menstruation-related pain": [ /Menstruation[-\s]related pain/i, /Menstrual pain/i ],
-    "Ovulation-related pain": [ /Ovulation[-\s]related pain/i, /Ovulation pain/i ],
-    "Dyspareunia (pain with intercourse)": [ /Dyspareunia.*intercourse/i, /Pain with intercourse/i, /Sex pain/i ],
-    "Pain with urination": [ /Pain with urination/i, /Urinary pain/i ],
-    "Pain with bowel movements": [ /Pain with bowel movements/i, /Bowel.*pain/i, /Defecation[-\s]?pain/i ],
-    "Background pain (rest of the month)": [ /Background pain.*month/i, /Chronic baseline pain/i, /Background pain/i ],
-    "Pain with physical activity": [ /Pain with physical activity/i, /Activity pain/i, /Exercise pain/i ],
-    "Pain with sleep\/rest": [ /Pain with sleep\/rest/i, /Sleep.*pain/i, /Rest pain/i ]
+    "Menstruation-related pain": [
+      /Menstruation[-\s]related pain/i, /Menstrual pain/i
+    ],
+    "Ovulation-related pain": [
+      /Ovulation[-\s]related pain/i, /Ovulation pain/i
+    ],
+    "Dyspareunia (pain with intercourse)": [
+      /Dyspareunia.*intercourse/i, /Pain with intercourse/i, /Sex pain/i
+    ],
+    "Pain with urination": [
+      /Pain with urination/i, /Urinary pain/i
+    ],
+    "Pain with bowel movements": [
+      /Pain with bowel movements/i, /Bowel.*pain/i, /defecation pain/i
+    ],
+    "Background pain (rest of the month)": [
+      /Background pain.*month/i, /Chronic baseline pain/i, /Background pain/i
+    ],
+    "Pain with physical activity": [
+      /Pain with physical activity/i, /Activity pain/i, /Exercise pain/i
+    ],
+    "Pain with sleep\/rest": [
+      /Pain with sleep\/rest/i, /Sleep.*pain/i, /Rest pain/i
+    ]
   };
 
   const TRIGGER_HEADINGS = {
@@ -490,7 +483,7 @@
       .map(s => `<p>${s}</p>`).join("");
   }
 
-  // --- Evidence link target ---
+  // --- Evidence link target (use "/evidence" if you added the Flask route; else "/static/evidence.html") ---
   const EVIDENCE_URL = "/evidence";
 
   function linkifyEvidence(html){
@@ -521,7 +514,7 @@
     TRIGGER_ORDER.forEach(trig => {
       if (!grouped.has(trig)) return;
       const canon = TRIGGER_HEADINGS[trig];
-      if (hasSection(clinicianOut.innerHTML, canon)) return; // already there
+      if (hasSection(clinicianOut.innerHTML, canon)) return; // already there (possibly normalised)
       const items = grouped.get(trig);
       const cats  = Array.from(new Set(items.map(i=>i.category)));
       const notes = cats.map(c => META_NOTES[c]).filter(Boolean).join(' ');
@@ -531,9 +524,13 @@
   }
 
   function injectMissingSectionsInOrder(){
+    // 1) normalise existing headings first (so we don't double-insert)
     clinicianOut.innerHTML = replaceAllSynonymsWithCanonical(clinicianOut.innerHTML);
+
+    // 2) add any missing sections before the evidence paragraph (if present)
     const addHtml = buildMissingSectionsHTML();
     if (!addHtml) return;
+
     let html = clinicianOut.innerHTML;
     const evParaRx = new RegExp(`(<p[^>]*>[^<]*evidence[^<]*</a>.*?</p>)`,'i');
     const m = html.match(evParaRx);
@@ -545,6 +542,7 @@
     const marker = /<strong>\s*Metaphor interpretation\s*<\/strong>/ig;
     const matches = [...clinicianOut.innerHTML.matchAll(marker)];
     if (matches.length <= 1) return;
+    // Keep the first, remove the rest
     let seen = false;
     clinicianOut.innerHTML = clinicianOut.innerHTML.replace(marker, () => {
       if (seen) return "";
@@ -553,7 +551,7 @@
     });
   }
 
-  // ---- Pronoun transforms ----
+  // ---- Pronoun transforms for Overall/QoL ----
   function csvToList(str){ return str.split(',').map(s=>s.trim()).filter(Boolean); }
   function stripIFeel(s){ return s.replace(/^I\s+feel\s+/i,'').replace(/^I\s+/i,''); }
   function toSecondPerson(s){
@@ -593,16 +591,18 @@
         const data = await resp.json();
 
         // Patient
-        const patientText = data.patient || (data.results && data.results.patient) || "No patient summary produced.";
+        const patientText =
+          data.patient || (data.results && data.results.patient) || "No patient summary produced.";
         patientOut.innerHTML = toParagraphs(renderMD(patientText));
 
         // Clinician (render + evidence link)
-        const doctorText = data.doctor || (data.results && data.results.doctor) || "No clinician notes produced.";
+        const doctorText  =
+          data.doctor  || (data.results && data.results.doctor)  || "No clinician notes produced.";
         clinicianOut.innerHTML = linkifyEvidence(renderMD(doctorText));
 
-        // Order + dedupe clinician sections (safe)
-        try { injectMissingSectionsInOrder(); } catch(e){ console.warn("injectMissingSections failed", e); }
-        try { ensureSingleMetaphorBlock(); } catch(e){ console.warn("ensureSingleMetaphorBlock failed", e); }
+        // Order + dedupe clinician sections
+        injectMissingSectionsInOrder();
+        ensureSingleMetaphorBlock();
 
         // Overall/QoL
         const overallRaw = (document.getElementById('overallHidden').value || "").trim();
@@ -616,14 +616,14 @@
           patientOut.innerHTML += "<p></p>" + toParagraphs(renderMD([patientOverall, patientQoL].filter(Boolean).join(" ")));
         }
 
-        // Doctor (3rd person)
+        // Doctor (3rd person, at bottom)
         const doctorOverall = overallList.length ? `Overall, the patient feels ${toSentence(overallList.map(toThirdPerson))}.` : "";
         const doctorQoL = qolRaw ? `Quality of life impact: ${toThirdPerson(qolRaw)}.` : "";
         if (doctorOverall || doctorQoL){
           clinicianOut.innerHTML += "<br><br>" + renderMD([doctorOverall, doctorQoL].filter(Boolean).join(" "));
         }
 
-        // Metaphor interpretation (insert if missing)
+        // Metaphor interpretation (only if not present already)
         if (!/Metaphor interpretation/i.test(clinicianOut.innerHTML)) {
           const pickedCats = Array.from(new Set(selections.map(s => s.category)));
           const explainItems = pickedCats
@@ -646,7 +646,7 @@
         }
 
       } catch (err) {
-        console.error("Frontend render failed:", err);
+        console.error(err);
         patientOut.textContent  = "There was an error analyzing your description.";
         clinicianOut.textContent = "";
       }
@@ -673,5 +673,8 @@
   initPills();
   initSubmit();
 </script>
+
+
+
 </body>
 </html>

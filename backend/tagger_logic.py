@@ -449,66 +449,50 @@ def generate_patient_summary(results: Dict[str, Any]) -> str:
 
 
 def generate_doctor_summary(results: Dict[str, Any]) -> str:
-    """
-    Doctor-facing summary with interpretations embedded per category.
-    - Collapses defecation/bowel into a single "Bowel-related pain" section.
-    - Uses consistent headings matching the UI canonical labels.
-    - Removes the separate 'metaphor interpretation / signals' appendix.
-    """
     if not isinstance(results, dict):
-        return ("Here is a clinical summary based on your description:\n\n"
-                "🩺 *Note*: These metaphor-based interpretations are not diagnostic.")
-
+        return "Here is a clinical summary based on your description:\n\n🩺 *Note*: These metaphor-based interpretations are not diagnostic."
     matched_global = results.get("matched_metaphors", {})
     matched_ctx = results.get("matched_by_context", {})
-
     if not matched_global:
         return ("Your description contains no specific metaphorical patterns that align with known symptom clusters. "
                 "However, the language used reflects a complex experience of pain that should be discussed with a healthcare provider for further evaluation.")
-
     out: List[str] = ["Here is a clinical summary based on your description:\n"]
 
-    # Ovulation
     if "ovulation" in matched_ctx:
         if any(m in matched_ctx["ovulation"] for m in ("constriction_pressure", "cutting_tools", "violent_action", "electric_force")):
             out.append("**Ovulation-related pain**")
             out.append(
                 "Language indicating constriction/stabbing around ovulation suggests uterine/ovarian origin and visceral nerve sensitivity.\n")
 
-    # Menstruation
     if "menstruation" in matched_ctx:
-        if ("heat" in matched_ctx["menstruation"]) or ("birth_labour" in matched_ctx["menstruation"]):
-            out.append("**Menstruation-related pain**")
+        if "heat" in matched_ctx["menstruation"] or "birth_labour" in matched_ctx["menstruation"]:
+            out.append("**Menstrual pain**")
             out.append(
                 "Burning/flaring language aligns with inflammatory flares or neuroimmune dysregulation during menses.\n")
 
-    # Intercourse
     if "intercourse" in matched_ctx:
         if any(m in matched_ctx["intercourse"] for m in ("violent_action", "cutting_tools", "constriction_pressure")):
             out.append("**Dyspareunia (pain with intercourse)**")
             out.append("Intrusive/cutting metaphors during intercourse may reflect pelvic floor dysfunction, trauma sequelae, or localized neuropathic irritation.\n")
 
-    # Bowel / defecation (collapsed into one label)
     if "defecation" in matched_ctx:
         if any(m in matched_ctx["defecation"] for m in ("birth_labour", "cutting_tools", "constriction_pressure", "heat", "violent_action")):
-            out.append("**Bowel-related pain**")
+            out.append("**Defecation-related pain**")
             out.append("Labour-like/knife-like or burning metaphors with bowel movements may indicate bowel involvement, inflammatory irritation, or nearby nerve entrapment.\n")
 
-    # Baseline
     if "baseline" in matched_ctx:
         if any(m in matched_ctx["baseline"] for m in ("lingering_force", "predator", "weight_burden")):
-            out.append("**Background pain (rest of the month)**")
+            out.append("**Chronic baseline pain**")
             out.append(
                 "Persistent, lurking/heavy metaphors point to chronic inflammation with anticipatory distress.\n")
 
-    # Footer note + evidence
-    out.append("🩺 *Note*: These metaphor-based interpretations are not diagnostic. "
-               "They are intended to support communication between patients and provider.\n")
+    signals = _summarize_signals(results.get("entailments", {}))
+    if signals:
+        out.extend(
+            ["", "**Interpretive signals** (from metaphor entailments):", signals, ""])
+    out.append("🩺 *Note*: These metaphor-based interpretations are not diagnostic. They are intended to support communication between patients and provider.\n")
     out.append("For more information, see the evidence page: /evidence")
-
     return "\n".join(out)
-
-    
 
 
 def generate_entailment_summary(obj: Dict[str, Any]) -> str:
