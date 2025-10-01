@@ -466,8 +466,8 @@ def generate_doctor_summary(results: Dict[str, Any]) -> str:
 
     if "menstruation" in matched_ctx:
         if "heat" in matched_ctx["menstruation"] or "birth_labour" in matched_ctx["menstruation"]:
-            out.append("**Menstrual pain**")
-            out.append(
+            out.append("**Menstruation-related pain**")
+            out.append("**Bowel-related pain**")
                 "Burning/flaring language aligns with inflammatory flares or neuroimmune dysregulation during menses.\n")
 
     if "intercourse" in matched_ctx:
@@ -486,13 +486,7 @@ def generate_doctor_summary(results: Dict[str, Any]) -> str:
             out.append(
                 "Persistent, lurking/heavy metaphors point to chronic inflammation with anticipatory distress.\n")
 
-    signals = _summarize_signals(results.get("entailments", {}))
-    if signals:
-        out.extend(
-            ["", "**Interpretive signals** (from metaphor entailments):", signals, ""])
-    out.append("🩺 *Note*: These metaphor-based interpretations are not diagnostic. They are intended to support communication between patients and provider.\n")
-    out.append("For more information, see the evidence page: /evidence")
-    return "\n".join(out)
+    
 
 
 def generate_entailment_summary(obj: Dict[str, Any]) -> str:

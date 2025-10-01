@@ -297,43 +297,49 @@
   const selections = []; // [{ trigger, category, expression }]
 
   // -------- Canonical clinician headings + synonyms (used to normalise & dedupe) --------
-  const CANON_HEADINGS = {
-    "Menstruation-related pain": [
-      /Menstruation[-\s]related pain/i, /Menstrual pain/i
-    ],
-    "Ovulation-related pain": [
-      /Ovulation[-\s]related pain/i, /Ovulation pain/i
-    ],
-    "Dyspareunia (pain with intercourse)": [
-      /Dyspareunia.*intercourse/i, /Pain with intercourse/i, /Sex pain/i
-    ],
-    "Pain with urination": [
-      /Pain with urination/i, /Urinary pain/i
-    ],
-    "Pain with bowel movements": [
-      /Pain with bowel movements/i, /Bowel.*pain/i, /defecation pain/i
-    ],
-    "Background pain (rest of the month)": [
-      /Background pain.*month/i, /Chronic baseline pain/i, /Background pain/i
-    ],
-    "Pain with physical activity": [
-      /Pain with physical activity/i, /Activity pain/i, /Exercise pain/i
-    ],
-    "Pain with sleep\/rest": [
-      /Pain with sleep\/rest/i, /Sleep.*pain/i, /Rest pain/i
-    ]
-  };
+const CANON_HEADINGS = {
+  "Menstruation-related pain": [
+    /Menstruation[-\s]related pain/i, /Menstrual pain/i
+  ],
+  "Ovulation-related pain": [
+    /Ovulation[-\s]related pain/i, /Ovulation pain/i
+  ],
+  "Dyspareunia (pain with intercourse)": [
+    /Dyspareunia.*intercourse/i, /Pain with intercourse/i, /Sex pain/i
+  ],
+  "Pain with urination": [
+    /Pain with urination/i, /Urinary pain/i
+  ],
+  "Bowel-related pain": [
+    /Bowel[-\s]related pain/i,
+    /Pain with bowel movements/i,
+    /Pain with defecation/i,
+    /Defecation[-\s]related pain/i,
+    /Defecation pain/i,
+    /Bowel.*pain/i
+  ],
+  "Background pain (rest of the month)": [
+    /Background pain.*month/i, /Chronic baseline pain/i, /Background pain/i
+  ],
+  "Pain with physical activity": [
+    /Pain with physical activity/i, /Activity pain/i, /Exercise pain/i
+  ],
+  "Pain with sleep\/rest": [
+    /Pain with sleep\/rest/i, /Sleep.*pain/i, /Rest pain/i
+  ]
+};
+
 
   const TRIGGER_HEADINGS = {
-    "Menstruation": "Menstruation-related pain",
-    "Ovulation": "Ovulation-related pain",
-    "Sex / Intercourse": "Dyspareunia (pain with intercourse)",
-    "Going to the toilet – urination": "Pain with urination",
-    "Going to the toilet – bowel emptying": "Pain with bowel movements",
-    "Daily life / Background": "Background pain (rest of the month)",
-    "Physical activity": "Pain with physical activity",
-    "Sleep / Rest": "Pain with sleep/rest"
-  };
+  "Menstruation": "Menstruation-related pain",
+  "Ovulation": "Ovulation-related pain",
+  "Sex / Intercourse": "Dyspareunia (pain with intercourse)",
+  "Going to the toilet – urination": "Pain with urination",
+  "Going to the toilet – bowel emptying": "Bowel-related pain",
+  "Daily life / Background": "Background pain (rest of the month)",
+  "Physical activity": "Pain with physical activity",
+  "Sleep / Rest": "Pain with sleep/rest"
+};
 
   const TRIGGER_ORDER = [
     "Menstruation",
@@ -538,18 +544,7 @@
     clinicianOut.innerHTML = html;
   }
 
-  function ensureSingleMetaphorBlock(){
-    const marker = /<strong>\s*Metaphor interpretation\s*<\/strong>/ig;
-    const matches = [...clinicianOut.innerHTML.matchAll(marker)];
-    if (matches.length <= 1) return;
-    // Keep the first, remove the rest
-    let seen = false;
-    clinicianOut.innerHTML = clinicianOut.innerHTML.replace(marker, () => {
-      if (seen) return "";
-      seen = true;
-      return "<strong>Metaphor interpretation</strong>";
-    });
-  }
+  
 
   // ---- Pronoun transforms for Overall/QoL ----
   function csvToList(str){ return str.split(',').map(s=>s.trim()).filter(Boolean); }
@@ -623,22 +618,7 @@
           clinicianOut.innerHTML += "<br><br>" + renderMD([doctorOverall, doctorQoL].filter(Boolean).join(" "));
         }
 
-        // Metaphor interpretation (only if not present already)
-        if (!/Metaphor interpretation/i.test(clinicianOut.innerHTML)) {
-          const pickedCats = Array.from(new Set(selections.map(s => s.category)));
-          const explainItems = pickedCats
-            .map(k => ({ key: k, label: k.replaceAll('_',' '), text: META_NOTES[k] }))
-            .filter(x => x.text);
-          if (explainItems.length) {
-            const listHtml = explainItems
-              .map(x => `<li><strong>${x.label}</strong>: ${x.text}</li>`).join("");
-            clinicianOut.innerHTML += `
-              <br>
-              <p><strong>Metaphor interpretation</strong></p>
-              <ul style="margin:.25rem 0 .75rem 1.25rem; line-height:1.6">${listHtml}</ul>
-            `;
-          }
-        }
+        
 
         // Ensure one evidence link exists
         if (!clinicianOut.innerHTML.includes(EVIDENCE_URL)) {
