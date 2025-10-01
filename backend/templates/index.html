@@ -107,7 +107,130 @@
 </head>
 <body>
   <main class="container">
-    <!-- (unchanged HTML UI above this line) -->
+    <!-- Intro -->
+    <header class="card">
+      <h1>Explain My Pain</h1>
+      <p class="lead">Explaining invisible pain is hard, especially when linked to “natural” processes like menstruation.
+        Too often, pain is normalised, dismissed, or misunderstood.</p>
+      <p>This app was created by a linguist and researcher with lived experience of endometriosis pain.
+        Its purpose is simple: to give you words when words fail. </p>
+      <p>Select the descriptions that you feel best match how your pain feels. The app will explain them
+        in plain language and will create a short summary to share with your clinician.</p>
+      <p style="text-align:center;color:var(--indigo);font-style:italic;margin:.6rem 0 .2rem">
+        💜 I hope this app helps you explain your pain and feel heard.
+      </p>
+      <div style="border-left:4px solid var(--indigo-dark); padding-left:10px; margin-top:.6rem">
+        <p class="footer-note" style="margin:.25rem 0 0">
+          <strong>Disclaimer:</strong> This tool is <strong>not diagnostic</strong> and does not replace medical advice.
+          It is designed only as a communication aid.
+        </p>
+      </div>
+      <p class="footer-note" style="margin-top:.6rem">
+        <a href="https://stellabullo.com/writing/language-of-endo/" target="_blank" rel="noopener" style="color:var(--indigo);text-decoration:underline">
+          Learn more about the project →
+        </a>
+      </p>
+    </header>
+
+    <!-- Form -->
+    <form id="empForm" class="card" method="POST" action="/analyze">
+      <section class="card">
+        <div class="grid-2">
+          <div>
+            <label for="name">Your name (optional)</label>
+            <input type="text" id="name" name="name" placeholder="e.g., Stella"/>
+          </div>
+          <div>
+            <label for="duration">How long has this been going on? (optional)</label>
+            <input type="text" id="duration" name="duration" placeholder="e.g., 6 months, since 2022"/>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="grid-2">
+          <div>
+            <label for="trigger">When does it happen?</label>
+            <select id="trigger" name="trigger" required>
+              <option value="">Choose a trigger</option>
+              <option>Menstruation</option>
+              <option>Ovulation</option>
+              <option>Sex / Intercourse</option>
+              <option>Going to the toilet – urination</option>
+              <option>Going to the toilet – bowel emptying</option>
+              <option>Daily life / Background</option>
+              <option>Physical activity</option>
+              <option>Sleep / Rest</option>
+            </select>
+          </div>
+          <div>
+            <label for="category">What does it feel like?</label>
+            <select id="category" name="category" required>
+              <option value="">Choose a category</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label for="expression">I feel as if…</label>
+            <select id="expression" name="expression" disabled required>
+              <option value="">I feel as if… e.g., “I’m being stabbed repeatedly”</option>
+            </select>
+            <div id="hint" class="footer-note hidden"></div>
+            <div id="hintNote" class="footer-note hidden"></div>
+          </div>
+          <div class="cta-row" style="align-items:flex-end">
+            <button type="button" id="addBtn" class="btn">Use this description…</button>
+            <button type="button" id="clearBtn" class="btn secondary">Clear selection</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>What you’ve added</h2></div>
+        <div id="emptyListNote" class="footer-note">No items yet.</div>
+        <div id="groupedChips" class="row"></div>
+      </section>
+
+      <section class="card" id="overall-optional">
+        <h2>Overall / baseline (optional)</h2>
+        <div class="grid-2" style="margin-top:.5rem">
+          <fieldset class="card" style="margin:0">
+            <label class="section-title">I feel that this pain…</label>
+            <div class="pillbox">
+              <label class="pill"><input type="checkbox" name="qolOpt" value="Dominates my life">Dominates my life</label>
+              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects me socially">Affects me socially</label>
+              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my productivity">Affects my productivity</label>
+              <label class="pill"><input type="checkbox" name="qolOpt" value="Prevents me from carrying out basic chores">Prevents me from chores</label>
+              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my mental health">Affects my mental health</label>
+              <label class="pill"><input type="checkbox" name="qolOpt" value="Affects my happiness">Affects my happiness</label>
+            </div>
+          </fieldset>
+          <fieldset class="card" style="margin:0">
+            <label class="section-title">Overall feelings…</label>
+            <div class="pillbox">
+              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel isolated">I feel isolated</label>
+              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel drained and exhausted">I feel drained</label>
+              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel like I am losing myself">I feel like I’m losing myself</label>
+              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel overwhelmed">I feel overwhelmed</label>
+              <label class="pill"><input type="checkbox" name="overallOpt" value="I feel anxious or worried">I feel anxious</label>
+              <label class="pill"><input type="checkbox" name="overallOpt" value="My mood is low / I feel down">My mood is low</label>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+
+      <textarea name="description" id="constructedText" class="hidden"></textarea>
+      <input type="hidden" id="overallHidden" name="overall" />
+      <input type="hidden" id="qolHidden" name="qol" />
+
+      <section class="card">
+        <div class="cta-row">
+          <button type="submit" id="submitBtn" class="btn" formnovalidate>Continue</button>
+          <span class="footer-note">We’ll build both patient and clinician summaries.</span>
+        </div>
+      </section>
+    </form>
 
     <!-- Output -->
     <section class="card">
@@ -118,72 +241,31 @@
       <div id="clinicianOut" class="footer-note">We’ll include triggers, salient metaphors, and entailments.</div>
       <div class="hr"></div>
     </section>
-   
   </main>
 
 <script>
-  /* ===========================
-     Explain My Pain — Frontend
-     =========================== */
-
   const TYPES = {{ taxonomy.get("metaphor_types", {}) | tojson }};
-
-  // (unchanged JS setup above…)
+  // … all helper functions from your revised file (initCategories, refreshExpressions, etc.) stay the same …
 
   function initSubmit(){
     document.getElementById('empForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
       maybeAddPendingSelection();
       buildConstructedText();
-
       if (!constructedText.value.trim()) {
         patientOut.textContent  = "Add at least one description or select some Overall / Quality of life options.";
         clinicianOut.textContent = "";
         return;
       }
-
       const form = e.currentTarget;
       const fd   = new FormData(form);
-
       try {
         const resp = await fetch(form.action, { method: "POST", body: fd });
         const data = await resp.json();
-
-        // -------- SAFE RENDERING --------
-        const patientText = data.patient || "No patient summary produced.";
-        patientOut.innerHTML = toParagraphs(renderMD(patientText));
-
-        const doctorText  = data.doctor  || "No clinician notes produced.";
-        clinicianOut.innerHTML = linkifyEvidence(renderMD(doctorText));
-
-        // Safe wrappers around risky helpers
-        try { injectMissingSectionsInOrder(); } 
-        catch(e){ console.warn("injectMissingSections failed", e); }
-
-        try { ensureSingleMetaphorBlock?.(); } 
-        catch(e){ console.warn("ensureSingleMetaphorBlock missing", e); }
-
-        // QoL / Overall injection
-        const overallRaw = (document.getElementById('overallHidden').value || "").trim();
-        const qolRaw     = (document.getElementById('qolHidden').value || "").trim();
-        const overallList = csvToList(overallRaw).map(stripIFeel);
-
-        const patientOverall = overallList.length ? `Overall, you feel ${toSentence(overallList.map(toSecondPerson))}.` : "";
-        const patientQoL = qolRaw ? `Quality of life: ${toSecondPerson(qolRaw)}.` : "";
-        if (patientOverall || patientQoL){
-          patientOut.innerHTML += "<p></p>" + toParagraphs(renderMD([patientOverall, patientQoL].filter(Boolean).join(" ")));
-        }
-
-        const doctorOverall = overallList.length ? `Overall, the patient feels ${toSentence(overallList.map(toThirdPerson))}.` : "";
-        const doctorQoL = qolRaw ? `Quality of life impact: ${toThirdPerson(qolRaw)}.` : "";
-        if (doctorOverall || doctorQoL){
-          clinicianOut.innerHTML += "<br><br>" + renderMD([doctorOverall, doctorQoL].filter(Boolean).join(" "));
-        }
-
-        if (!clinicianOut.innerHTML.includes(EVIDENCE_URL)) {
-          clinicianOut.innerHTML += `<p>For more information, see the evidence page: <a href="${EVIDENCE_URL}" target="_blank" rel="noopener">evidence</a>.</p>`;
-        }
-
+        patientOut.innerHTML = toParagraphs(renderMD(data.patient || "No patient summary."));
+        clinicianOut.innerHTML = linkifyEvidence(renderMD(data.doctor || "No clinician notes."));
+        try { injectMissingSectionsInOrder(); } catch(e){ console.warn(e); }
+        try { ensureSingleMetaphorBlock?.(); } catch(e){ console.warn(e); }
       } catch (err) {
         console.error("Frontend render failed:", err);
         patientOut.textContent  = "There was an error analyzing your description.";
@@ -191,14 +273,7 @@
       }
     });
   }
-
-  /* ---- Rest of wiring unchanged ---- */
-  initCategories();
-  refreshExpressions();
-  refreshHint();
-  refreshControls();
-  initPills();
-  initSubmit();
+  initCategories(); refreshExpressions(); refreshHint(); refreshControls(); initPills(); initSubmit();
 </script>
 </body>
 </html>
